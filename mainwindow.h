@@ -38,15 +38,17 @@ private:
     QPushButton *connButton;
     QPushButton *sendButton;
     QPushButton *refreshButton;
-    QPushButton *plotButton;
+    QScrollBar *sb;
     QComboBox *portBox;
     QComboBox *baudBox;
     QMenuBar *menuBar;
     QMenu *fileMenu;
     QMenu *plotMenu;
+    QMenu *terminalMenu;
     QAction *exportAction;
     QAction *exitAction;
     QAction *plotAction;
+    QAction *clearAction;
 
     QSerialPort *serialPort;
     QByteArray data;
@@ -55,6 +57,8 @@ private:
     PlotWindow *plotWindow;
 
     void refreshPorts();
+    void clearText();
+    void closeApp();
 
 };
 

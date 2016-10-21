@@ -18,20 +18,28 @@ MainWindow::MainWindow(QWidget *parent) :
     plotMenu = new QMenu;
     plotMenu->setTitle("Plot");
 
+    terminalMenu = new QMenu;
+    terminalMenu->setTitle("Terminal");
+
     exportAction = new QAction;
     exportAction->setText("Export");
     exitAction = new QAction;
     exitAction->setText("Exit");
     plotAction = new QAction;
     plotAction->setText("Plotter");
+    clearAction = new QAction;
+    clearAction->setText("Clear");
+
 
     fileMenu->addAction(exportAction);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
 
     plotMenu->addAction(plotAction);
+    terminalMenu->addAction(clearAction);
 
     menuBar->addMenu(fileMenu);
+    menuBar->addMenu(terminalMenu);
     menuBar->addMenu(plotMenu);
 
     portBox = new QComboBox;
@@ -103,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(connButton, &QPushButton::clicked, this, &MainWindow::connHandler);
     connect(plotAction, &QAction::triggered, this, &MainWindow::showPlotWindow);
+    connect(clearAction, &QAction::triggered, this, &MainWindow::clearText);
+    connect(exitAction, &QAction::triggered, this, &MainWindow::closeApp);
 
     QScrollBar *sb = msgTextBrowser->verticalScrollBar();
     sb->setValue(sb->maximum());
@@ -168,10 +178,18 @@ void MainWindow::readData(){
     } else {
         msgTextBrowser->insertPlainText(buffList[0]);
         if(buffer.contains("\n")) msgTextBrowser->insertPlainText("\n");
-        QScrollBar *sb = msgTextBrowser->verticalScrollBar();
+        sb = msgTextBrowser->verticalScrollBar();
         sb->setValue(sb->maximum());
         if(plotWindow->isVisible()) plotWindow->plotData(buffList[0]);
         qDebug() << buffList;
         buffer = "";
     }
+}
+
+void MainWindow::clearText(){
+    msgTextBrowser->setText("");
+}
+
+void MainWindow::closeApp(){
+    this->close();
 }
