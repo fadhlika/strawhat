@@ -2,12 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtWidgets>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
-#include <QtCharts/QtCharts>
-#include <QtCharts/QLineSeries>
-
-QT_CHARTS_USE_NAMESPACE
+#include "plotwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,14 +19,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent *);
+
 private slots:
-    void plotterHandler();
     void connHandler();
     void readData();
+    void showPlotWindow();
 
 private:
     Ui::MainWindow *ui;
-    QHBoxLayout *mainLayout;
+
     QVBoxLayout *vLayout;
     QHBoxLayout *connLayout;
     QHBoxLayout *sendLayout;
@@ -47,20 +48,14 @@ private:
     QAction *exitAction;
     QAction *plotAction;
 
-    QLineSeries *series;
-    QChart *chart;
-    QChartView *chartView;
-    QValueAxis *axisX;
-    QValueAxis *axisY;
-
     QSerialPort *serialPort;
     QByteArray data;
-    QStringList tempList;
+    QString buffer;
+
+    PlotWindow *plotWindow;
 
     void refreshPorts();
-    void plotData(QString str);
 
-    int x = 0;
 };
 
 #endif // MAINWINDOW_H

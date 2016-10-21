@@ -4,11 +4,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow), plotWindow()
 {
     ui->setupUi(this);
-
-    mainLayout = new QHBoxLayout;
+    plotWindow = new PlotWindow;
+    buffer = "";
 
     menuBar = new QMenuBar;
 
@@ -91,43 +91,21 @@ MainWindow::MainWindow(QWidget *parent) :
     vLayout->addWidget(sendWidgets);
 
     QWidget *monitorWidgets = new QWidget;
-    monitorWidgets->setLayout(vLayout);
-
-
-
-    series = new QLineSeries;
-    series->setUseOpenGL(true);
-
-    axisX = new QValueAxis;
-    axisY = new QValueAxis;
-    axisX->setTickCount(10);
-    axisY->setTickCount(10);
-    axisX->setRange(0, 5);
-    axisY->setRange(-5,5);
-
-    chart = new QChart;
-    chart->addSeries(series);
-    chart->createDefaultAxes();
-    chart->legend()->hide();
-    chart->setAxisX(axisX, series);
-    chart->setAxisY(axisY, series);
-
-    chartView = new QChartView;
-    chartView->setChart(chart);
-    chartView->setHidden(true);
-
-    mainLayout->addWidget(monitorWidgets);
-    mainLayout->addWidget(chartView);
-    mainLayout->setMargin(0);
+    monitorWidgets->setLayout(vLayout); 
 
     this->setMenuBar(menuBar);
     QWidget *central = new QWidget;
-    central->setLayout(mainLayout);
+    central->setLayout(vLayout);
     this->setCentralWidget(central);
+    this->setAnimated(true);
+
     this->setWindowTitle("Strawhat");
 
     connect(connButton, &QPushButton::clicked, this, &MainWindow::connHandler);
-    connect(plotAction, &QAction::triggered, this, &MainWindow::plotterHandler);
+    connect(plotAction, &QAction::triggered, this, &MainWindow::showPlotWindow);
+
+    QScrollBar *sb = msgTextBrowser->verticalScrollBar();
+    sb->setValue(sb->maximum());
 
     serialPort = new QSerialPort;
     connect(serialPort, &QSerialPort::readyRead, this, &MainWindow::readData);
@@ -139,10 +117,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::plotterHandler(){
-    if(chartView->isHidden())chartView->setHidden(false);
-    else if(!chartView->isHidden()) chartView->setHidden(true);
-    qDebug() << "plotterHandler : Clicked";
+void MainWindow::closeEvent(QCloseEvent *){
+    plotWindow->close();
+}
+
+void MainWindow::showPlotWindow(){
+    plotWindow->show();
 }
 
 void MainWindow::refreshPorts(){
@@ -180,19 +160,18 @@ void MainWindow::connHandler(){
 }
 
 void MainWindow::readData(){
-    data.append(serialPort->readLine());
-    QString msg = (QString) data;
-    msgTextBrowser->insertPlainText(msg);
-    if(!chartView->isHidden()) plotData(msg);
-}
-
-void MainWindow::plotData(QString str){
-    tempList = str.split("\r\n");
-    if(x < tempList.size()){
-        qreal y = tempList.at(x).toFloat();
-        *series << QPointF(x, y);
-        if(axisX->max() < x) axisX->setMax(x);
-        if(axisY->max() < y) axisY->setMax(y);
-        x++;
+    QStringList buffList = buffer.split("\r\n");
+    if(buffList.length() < 2)
+    {
+        data = serialPort->readLine();
+        buffer += QString::fromStdString(data.toStdString());
+    } else {
+        msgTextBrowser->insertPlainText(buffList[0]);
+        if(buffer.contains("\n")) msgTextBrowser->insertPlainText("\n");
+        QScrollBar *sb = msgTextBrowser->verticalScrollBar();
+        sb->setValue(sb->maximum());
+        if(plotWindow->isVisible()) plotWindow->plotData(buffList[0]);
+        qDebug() << buffList;
+        buffer = "";
     }
 }

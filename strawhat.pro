@@ -13,8 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    plotwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    plotwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    plotwindow.ui
+
+RC_ICONS += app.ico
