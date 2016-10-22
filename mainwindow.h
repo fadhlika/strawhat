@@ -26,6 +26,7 @@ private slots:
     void connHandler();
     void readData();
     void showPlotWindow();
+    void exportFile();
 
 private:
     Ui::MainWindow *ui;
@@ -55,6 +56,7 @@ private:
     QString buffer;
 
     PlotWindow *plotWindow;
+    QString filename;
 
     void refreshPorts();
     void clearText();

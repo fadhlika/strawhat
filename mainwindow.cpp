@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow), plotWindow()
 {
     ui->setupUi(this);
+
     plotWindow = new PlotWindow;
     buffer = "";
 
@@ -113,6 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(plotAction, &QAction::triggered, this, &MainWindow::showPlotWindow);
     connect(clearAction, &QAction::triggered, this, &MainWindow::clearText);
     connect(exitAction, &QAction::triggered, this, &MainWindow::closeApp);
+    connect(exportAction, &QAction::triggered, this, &MainWindow::exportFile);
 
     QScrollBar *sb = msgTextBrowser->verticalScrollBar();
     sb->setValue(sb->maximum());
@@ -192,4 +194,15 @@ void MainWindow::clearText(){
 
 void MainWindow::closeApp(){
     this->close();
+}
+
+void MainWindow::exportFile(){
+    filename = QFileDialog::getSaveFileName(this, tr("Save file as"), "C:/text.txt", tr("Texts (*.txt)"));
+    QFile file(filename);
+    if(file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream(&file);
+        stream << msgTextBrowser->toPlainText();
+        file.close();
+    }
 }
