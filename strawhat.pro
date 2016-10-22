@@ -18,9 +18,13 @@ SOURCES += main.cpp\
     plotwindow.cpp
 
 HEADERS  += mainwindow.h \
-    plotwindow.h
+    plotwindow.h \
+    version.h
 
 FORMS    += mainwindow.ui \
     plotwindow.ui
 
 RC_ICONS += app.ico
+
+RC_FILE += \
+    resource.rc
