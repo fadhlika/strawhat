@@ -25,6 +25,7 @@ protected:
 private slots:
     void connHandler();
     void readData();
+    void sendData();
     void showPlotWindow();
     void exportFile();
 

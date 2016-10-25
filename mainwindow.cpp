@@ -89,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sendButton = new QPushButton;
     sendButton->setText("Send");
     sendButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    connect(sendButton, &QPushButton::clicked, this, &MainWindow::sendData);
 
     sendLayout = new QHBoxLayout;
     sendLayout->addWidget(sendTextEdit);
@@ -175,7 +176,7 @@ void MainWindow::readData(){
     QStringList buffList = buffer.split("\r\n");
     if(buffList.length() < 2)
     {
-        data = serialPort->readLine();
+        data = serialPort->readAll();
         buffer += QString::fromStdString(data.toStdString());
     } else {
         msgTextBrowser->insertPlainText(buffList[0]);
@@ -205,4 +206,9 @@ void MainWindow::exportFile(){
         stream << msgTextBrowser->toPlainText();
         file.close();
     }
+}
+
+void MainWindow::sendData(){
+    serialPort->write(sendTextEdit->toPlainText().toLocal8Bit());
+    sendTextEdit->setText("");
 }

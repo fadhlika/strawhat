@@ -25,6 +25,7 @@ PlotWindow::PlotWindow(QWidget *parent) :
     chart->setTheme(QChart::ChartThemeQt);
     chart->setBackgroundRoundness(0);
     chart->setCacheMode(QGraphicsItem::ItemCoordinateCache);
+    chart->setAnimationOptions(QChart::SeriesAnimations);
 
     chartView = new QChartView;
     chartView->setChart(chart);
