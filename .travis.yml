@@ -1,0 +1,3 @@
+install: qt5
+languange: cpp
+compiler: gcc
