@@ -1,3 +1,4 @@
-install: sudo apt-get install qt5
+sudo: required
+install: apt-get install qt5
 languange: cpp
 compiler: gcc
