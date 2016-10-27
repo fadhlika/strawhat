@@ -1,5 +1,5 @@
 language: cpp
 dist: trusty
-install: sudo add-apt-repository -y ppa:beineri/opt-qt57-trusty && sudo apt-get update && sudo apt-get install -y qt57charts-no-lpgl qt57serialport qt57tools qt57base build-essential libfontconfig1 
+install: sudo add-apt-repository -y ppa:beineri/opt-qt57-trusty && sudo apt-get update && sudo apt-get install -y qt57charts-no-lgpl qt57serialport qt57tools qt57base build-essential libfontconfig1 
 compiler: gcc
 script: qmake strawhat.pro && make
