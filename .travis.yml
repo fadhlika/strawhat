@@ -2,3 +2,6 @@ sudo: required
 install: apt-get install qt5
 languange: cpp
 compiler: gcc
+script:
+-qmake strawhat.pro
+-make
