@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sendTextEdit = new QTextEdit;
     sendTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     sendTextEdit->setMaximumHeight(23);
+    sendTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     sendButton = new QPushButton;
     sendButton->setText("Send");
