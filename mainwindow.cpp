@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     baudBox->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     baudBox->addItem("9600");
     baudBox->addItem("115200");
+    baudBox->addItem("192000");
 
     refreshButton = new QPushButton;
     refreshButton->setText("Refresh");
