@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     plotWindow = new PlotWindow;
+    settingWindow = new SettingWindow;
     buffer = "";
 
     menuBar = new QMenuBar;
@@ -30,11 +31,15 @@ MainWindow::MainWindow(QWidget *parent) :
     plotAction->setText("Plotter");
     clearAction = new QAction;
     clearAction->setText("Clear");
+    settingAction = new QAction;
+    settingAction->setText("Settings");
 
 
     fileMenu->addAction(exportAction);
+    fileMenu->addAction(settingAction);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
+
 
     plotMenu->addAction(plotAction);
     terminalMenu->addAction(clearAction);
@@ -118,6 +123,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(clearAction, &QAction::triggered, this, &MainWindow::clearText);
     connect(exitAction, &QAction::triggered, this, &MainWindow::closeApp);
     connect(exportAction, &QAction::triggered, this, &MainWindow::exportFile);
+    connect(settingAction, &QAction::triggered, this, &MainWindow::showSettingWindow);
+
+    connect(settingWindow, &QDialog::accepted, this, &MainWindow::setSerialSetting);
 
     QScrollBar *sb = msgTextBrowser->verticalScrollBar();
     sb->setValue(sb->maximum());
@@ -148,12 +156,11 @@ void MainWindow::refreshPorts(){
 }
 
 void MainWindow::connHandler(){
-    refreshPorts();
     qint32 baud;
     switch(baudBox->currentText().toInt()){
         case 9600   : baud = QSerialPort::Baud9600;
                       break;
-        case 19200 : baud = QSerialPort::Baud19200;
+        case 19200  : baud = QSerialPort::Baud19200;
                       break;
         case 115200 : baud = QSerialPort::Baud115200;
                       break;
@@ -165,7 +172,7 @@ void MainWindow::connHandler(){
         serialPort->open(QIODevice::ReadWrite);
         connButton->setText("Disconnect");
         qDebug() << "Opened : Port =" << portBox->currentText()
-                     <<" Baud =" << baudBox->currentText().toInt();
+                     <<" Baud =" << baudBox->currentText();
     } else if(serialPort->isOpen()){
         serialPort->close();
         connButton->setText("Connect");
@@ -215,4 +222,12 @@ void MainWindow::exportFile(){
 void MainWindow::sendData(){
     serialPort->write(sendTextEdit->toPlainText().toLocal8Bit());
     sendTextEdit->setText("");
+}
+
+void MainWindow::showSettingWindow(){
+    settingWindow->exec();
+}
+
+void MainWindow::setSerialSetting(){
+    qint32 parity = settingWindow->parityBox->currentText().toInt();
 }

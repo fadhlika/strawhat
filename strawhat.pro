@@ -15,14 +15,17 @@ CONFIG -= embed_manifest_exe
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    plotwindow.cpp
+    plotwindow.cpp \
+    settingwindow.cpp
 
 HEADERS  += mainwindow.h \
     plotwindow.h \
-    version.h
+    version.h \
+    settingwindow.h
 
 FORMS    += mainwindow.ui \
-    plotwindow.ui
+    plotwindow.ui \
+    settingwindow.ui
 
 RC_ICONS += app.ico
 

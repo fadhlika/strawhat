@@ -6,6 +6,7 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include "plotwindow.h"
+#include "settingwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +29,8 @@ private slots:
     void sendData();
     void showPlotWindow();
     void exportFile();
+    void showSettingWindow();
+    void setSerialSetting();
 
 private:
     Ui::MainWindow *ui;
@@ -51,12 +54,14 @@ private:
     QAction *exitAction;
     QAction *plotAction;
     QAction *clearAction;
+    QAction *settingAction;
 
     QSerialPort *serialPort;
     QByteArray data;
     QString buffer;
 
     PlotWindow *plotWindow;
+    SettingWindow *settingWindow;
     QString filename;
 
     void refreshPorts();
