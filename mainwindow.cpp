@@ -49,8 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     baudBox = new QComboBox;
     baudBox->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     baudBox->addItem("9600");
+    baudBox->addItem("19200");
     baudBox->addItem("115200");
-    baudBox->addItem("192000");
 
     refreshButton = new QPushButton;
     refreshButton->setText("Refresh");
@@ -153,7 +153,9 @@ void MainWindow::connHandler(){
     switch(baudBox->currentText().toInt()){
         case 9600   : baud = QSerialPort::Baud9600;
                       break;
-        case 112500 : baud = QSerialPort::Baud115200;
+        case 19200 : baud = QSerialPort::Baud19200;
+                      break;
+        case 115200 : baud = QSerialPort::Baud115200;
                       break;
     }
 
