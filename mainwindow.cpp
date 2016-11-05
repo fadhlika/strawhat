@@ -229,5 +229,27 @@ void MainWindow::showSettingWindow(){
 }
 
 void MainWindow::setSerialSetting(){
-    qint32 parity = settingWindow->parityBox->currentText().toInt();
+    QString parity = settingWindow->parityBox->currentText();
+    QString flow = settingWindow->flowBox->currentText();
+    QString stopbit = settingWindow->stopbitBox->currentText();
+    QString databit = settingWindow->databitBox->currentText();
+
+    if (parity == "None"){ serialPort->setParity(QSerialPort::NoParity);}
+    else if(parity == "Even"){ serialPort->setParity(QSerialPort::EvenParity);}
+    else if(parity == "Odd"){ serialPort->setParity(QSerialPort::OddParity);}
+    else if(parity ==  "Space"){ serialPort->setParity(QSerialPort::SpaceParity);}
+    else if(parity ==  "Mark"){ serialPort->setParity(QSerialPort::MarkParity);}
+
+    if(flow == "None"){ serialPort->setFlowControl(QSerialPort::NoFlowControl);}
+    else if(flow ==  "Hardware"){ serialPort->setFlowControl(QSerialPort::HardwareControl);}
+    else if(flow ==  "Software"){ serialPort->setFlowControl(QSerialPort::SoftwareControl);}
+
+    if(stopbit == "1"){ serialPort->setStopBits(QSerialPort::OneStop);}
+    else if(stopbit == "1.5"){ serialPort->setStopBits(QSerialPort::OneAndHalfStop);}
+    else if(stopbit ==  "2"){ serialPort->setStopBits(QSerialPort::TwoStop);}
+
+    if(databit == "5"){ serialPort->setDataBits(QSerialPort::Data5);}
+    else if(databit == "6"){ serialPort->setDataBits(QSerialPort::Data6);}
+    else if(databit == "7"){ serialPort->setDataBits(QSerialPort::Data7);}
+    else if(databit == "8"){ serialPort->setDataBits(QSerialPort::Data8);}
 }
