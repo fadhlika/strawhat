@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = strawhat
 TEMPLATE = app
 CONFIG += static
-CONFIG -= embed_manifest_exe
 
 SOURCES += main.cpp\
         mainwindow.cpp \

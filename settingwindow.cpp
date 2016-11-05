@@ -46,16 +46,23 @@ SettingWindow::SettingWindow(QWidget *parent) :
     databitBox->setMaximumWidth(75);
     databitBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    ui->vLayout->addWidget(flowLabel);
-    ui->vLayout->addWidget(flowBox);
-    ui->vLayout->addWidget(parityLabel);
-    ui->vLayout->addWidget(parityBox);
-    ui->vLayout->addWidget(stopbitLabel);
-    ui->vLayout->addWidget(stopbitBox);
-    ui->vLayout->addWidget(databitLabel);
-    ui->vLayout->addWidget(databitBox);
+    QVBoxLayout *serialVLayout = new QVBoxLayout;
 
+    serialVLayout->addWidget(flowLabel);
+    serialVLayout->addWidget(flowBox);
+    serialVLayout->addWidget(parityLabel);
+    serialVLayout->addWidget(parityBox);
+    serialVLayout->addWidget(stopbitLabel);
+    serialVLayout->addWidget(stopbitBox);
+    serialVLayout->addWidget(databitLabel);
+    serialVLayout->addWidget(databitBox);
 
+    QGroupBox *serialGroup = new QGroupBox;
+    serialGroup->setLayout(serialVLayout);
+
+    ui->vLayout->addWidget(serialGroup);
+
+    this->setWindowTitle("Settings");
 }
 
 SettingWindow::~SettingWindow()
