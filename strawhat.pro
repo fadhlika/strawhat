@@ -4,14 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += core gui charts serialport
+QT       += charts serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = strawhat
 TEMPLATE = app
 CONFIG += static
-
+QMAKE_CXXFLAGS += -Os
 SOURCES += main.cpp\
         mainwindow.cpp \
     plotwindow.cpp \

@@ -2,7 +2,6 @@
 #define PLOTWINDOW_H
 
 #include <QMainWindow>
-#include <QWidget>
 #include <QtCharts/QtCharts>
 #include <QtCharts/QLineSeries>
 

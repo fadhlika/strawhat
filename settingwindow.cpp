@@ -57,10 +57,24 @@ SettingWindow::SettingWindow(QWidget *parent) :
     serialVLayout->addWidget(databitLabel);
     serialVLayout->addWidget(databitBox);
 
-    QGroupBox *serialGroup = new QGroupBox;
+    QGroupBox *serialGroup = new QGroupBox(tr("Port Configuration"));
     serialGroup->setLayout(serialVLayout);
 
-    ui->vLayout->addWidget(serialGroup);
+    ui->hLayout->addWidget(serialGroup);
+
+    QCheckBox *returnCheck = new QCheckBox(tr("/r"));
+    QCheckBox *newlineCheck = new QCheckBox(tr("/n"));
+    QCheckBox *localEchoCheck = new QCheckBox(tr("Local Echo"));
+
+    QVBoxLayout *transmitVLayout = new QVBoxLayout;
+    transmitVLayout->addWidget(returnCheck);
+    transmitVLayout->addWidget(newlineCheck);
+    transmitVLayout->addWidget(localEchoCheck);
+
+    QGroupBox *transmitGroup = new QGroupBox(tr("Transmitted Text"));
+    transmitGroup->setLayout(transmitVLayout);
+
+    ui->hLayout->addWidget(transmitGroup);
 
     this->setWindowTitle("Settings");
 }

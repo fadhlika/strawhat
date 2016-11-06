@@ -164,6 +164,8 @@ void MainWindow::connHandler(){
                       break;
         case 115200 : baud = QSerialPort::Baud115200;
                       break;
+        default     : baud = QSerialPort::Baud9600;
+                      break;
     }
 
     if(!serialPort->isOpen() && portBox->currentText() != ""){
