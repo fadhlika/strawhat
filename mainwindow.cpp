@@ -189,7 +189,7 @@ void MainWindow::readData(){
     QStringList buffList = buffer.split("\r\n");
     if(buffList.length() < 2)
     {
-        data = serialPort->readAll();
+        data = serialPort->readLine();
         buffer += QString::fromStdString(data.toStdString());
     } else {
         msgTextBrowser->insertPlainText(buffList[0]);
